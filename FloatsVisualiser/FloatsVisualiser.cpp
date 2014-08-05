@@ -19,18 +19,40 @@ union SpyFloat
 	float     mFloatRep;
 };
 
-void printFloat(float f)
+void printFloat(const float f)
 {
 	SpyFloat spyF;
 	spyF.mFloatRep = f;
 
-	cout << "Float " << scientific << f << 
-		endl << "\traw: " << hex << spyF.mUintDataRep <<
-		endl << "\tbinary (exp bias = 127): " << static_cast<bitset<32>>(spyF.mUintDataRep) << endl;
+	cout 
+		<< "Float " 
+		<< scientific 
+		<< f 
+		<< endl 
+		<< "\traw: " 
+		<< hex 
+		<< spyF.mUintDataRep 
+		<< endl 
+		<< "\tbinary (exp bias = 127): " 
+		<< static_cast<bitset<32>>(spyF.mUintDataRep) 
+		<< endl;
+}
+
+void printFloatError(const float f)
+{
+	cout
+		<< "Float value: "
+		<< scientific
+		<< f
+		<< " Max Error: "
+		<< f * std::numeric_limits<float>::epsilon()
+		<< endl;
 }
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	cout << "Representation of some common types" << endl;
+
 	// zero
 	float zeroFloat = 0.0f;
 	printFloat(zeroFloat);
@@ -48,14 +70,20 @@ int _tmain(int argc, _TCHAR* argv[])
 	printFloat(numeric_limits<float>::min());
 	printFloat(numeric_limits<float>::max());
 
-	// General
-	printFloat(1.f);
-	printFloat(1.1f);
-	printFloat(524288.f);  // 2^20
-	printFloat(1048576.f); // 2^21
-	printFloat(2097152.f); // 2^22
-	printFloat(4194304.f); // 2^23
-	printFloat(8388608.f); // 2^24
+	cout << "Error limits for some 2^n types" << endl;
+
+	for (int i = 0; i < 32; ++i)
+	{
+		const float currentVal = std::powf(2.0f, static_cast<float>(i));
+		printFloatError(currentVal);
+	}
+
+	// For comparison against the Gamasutra Article:
+	// http://www.gamasutra.com/view/feature/130382/visualizing_floats.php
+	printFloatError(1.e6f);
+	printFloatError(64.e6f);
+	printFloatError(std::powf(2.0f, 23.0f));
+	printFloatError(std::powf(2.0f, 32.0f));
 
 	return 0;
 }
