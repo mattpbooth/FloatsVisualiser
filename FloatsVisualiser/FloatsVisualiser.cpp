@@ -85,6 +85,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	printFloatError(std::powf(2.0f, 23.0f));
 	printFloatError(std::powf(2.0f, 32.0f));
 
+	// Distance to the sun in km
+	printFloatError(149597887.5f);
+	
 	return 0;
 }
 
