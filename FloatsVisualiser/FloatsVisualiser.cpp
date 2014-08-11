@@ -87,7 +87,25 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	// Distance to the sun in km
 	printFloatError(149597887.5f);
+
+	// Demonstration of error as worst case
+	// Exponent of 144 (2^17)
+	// Mantissa of 1 (1.0000001192092896)
+	// 131072.02
+	// Mantissa of 2 (1.000000238418579)
+	// 131072.03
+	printFloatError(131072.02f);
+	printFloatError(131072.03f);
 	
+	// Rounded to mantissa of 1?
+	printFloat(131072.02f);
+	printFloat(131072.0225f);
+
+	// Rounded to mantissa of 2?
+	printFloat(131072.025f);
+	printFloat(131072.0275f);
+	printFloat(131072.03f);
+
 	return 0;
 }
 
